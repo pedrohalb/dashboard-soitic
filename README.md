@@ -9,7 +9,7 @@ O objetivo deste teste é avaliar suas habilidades em desenvolvimento web, inclu
 ## Estrutura do Repositório
 
 - `data/appointments.json`: Arquivo JSON contendo os dados simulados de agendamentos.
-- `src/`: Pasta onde você deve colocar o código-fonte da sua aplicação (HTML, CSS, JavaScript, ou qualquer outra tecnologia escolhida).
+- `src/`: Pasta onde você deve colocar o código-fonte da sua aplicação (tecnologia escolhida).
 
 ## Requisitos
 
@@ -26,6 +26,6 @@ Consulte o documento de instruções completo para obter todos os detalhes sobre
 
 1.  Crie um repositório público no GitHub ou GitLab.
 2.  Suba o seu código para o repositório.
-3.  Certifique-se de que o seu `README.md` (este arquivo) esteja atualizado com instruções claras sobre como rodar o projeto localmente, as principais decisões de arquitetura e as tecnologias escolhidas, justificando-as.
+3.  Certifique-se de que o seu `README.md` esteja atualizado com instruções claras sobre como rodar o projeto localmente, as principais decisões de arquitetura e as tecnologias escolhidas, justificando-as.
 
 Boa sorte! Estamos ansiosos para ver sua solução e como você pode contribuir para a inovação no Grupo SOITIC.

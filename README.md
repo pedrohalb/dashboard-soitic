@@ -21,11 +21,15 @@ Consulte o documento de instruções completo para obter todos os detalhes sobre
 *   **Arquitetura de Frontend:** Organização do código, modularidade, componentização e uso de boas práticas.
 *   **UX/UI e Responsividade:** Qualidade da interface, usabilidade, interatividade e adaptação a diferentes dispositivos.
 *   **Qualidade do Código:** Legibilidade, manutenibilidade e aderência a padrões de codificação.
+*   **Bônus** Fica a seu critério explorar uma estrutura de Back-end.
 
 ## Como Entregar
 
 1.  Crie um repositório público no GitHub ou GitLab.
 2.  Suba o seu código para o repositório.
 3.  Certifique-se de que o seu `README.md` esteja atualizado com instruções claras sobre como rodar o projeto localmente, as principais decisões de arquitetura e as tecnologias escolhidas, justificando-as.
+4.  Você terá **dois dias** para finalizar o teste.
 
 Boa sorte! Estamos ansiosos para ver sua solução e como você pode contribuir para a inovação no Grupo SOITIC.
+
+

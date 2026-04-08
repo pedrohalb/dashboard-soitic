@@ -116,7 +116,10 @@ dashboard-soitic/
 - **Antes de dar build no docker**: Criar arquivo .env igual ao .env.example e colocar no diretório "soitic-test-repo\src\dashboard-soitic"
 
 ```bash
+cd backend
+cp .env.example .env
 docker-compose up -d --build
+# App em http://localhost:5173
 ```
 
 Isso sobe os 3 serviços:

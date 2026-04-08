@@ -23,7 +23,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
       <div className="px-4 mb-10 flex items-center justify-between overflow-hidden">
         {!collapsed && (
           <div>
-            <h1 className="font-headline font-extrabold text-2xl tracking-tighter whitespace-nowrap text-secondary-500">
+            <h1 className="font-headline font-extrabold text-2xl tracking-tighter whitespace-nowrap bg-gradient-to-r from-secondary-500 to-primary-500 bg-clip-text text-transparent">
               Clínica Bem Viver
             </h1>
           </div>
@@ -52,7 +52,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
                 collapsed ? 'justify-center' : 'gap-3'
               } ${
                 isActive
-                  ? 'bg-primary-500 text-white shadow-sm font-semibold'
+                  ? 'bg-gradient-to-r from-secondary-500 to-primary-500 text-white shadow-sm font-semibold'
                   : 'text-text-secondary hover:bg-surface-hover hover:text-primary-500'
               }`
             }

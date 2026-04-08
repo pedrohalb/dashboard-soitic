@@ -113,8 +113,10 @@ dashboard-soitic/
 
 ### Opção 1: Docker Compose (recomendado)
 
+- **Antes de dar build no docker**: Criar arquivo .env igual ao .env.example e colocar no diretório "soitic-test-repo\src\dashboard-soitic"
+
 ```bash
-docker-compose up --build
+docker-compose up -d --build
 ```
 
 Isso sobe os 3 serviços:
@@ -197,8 +199,7 @@ interface Appointment {
 - [x] Seed automático de 29 agendamentos na primeira execução
 - [x] Docker Compose com PostgreSQL, backend e frontend
 - [x] Multi-stage Docker builds (node:20-alpine + nginx:alpine)
-- [ ] Páginas de Agendamentos, Pacientes e Configurações (placeholder)
-- [ ] Ações dos botões "Novo Agendamento" e "Relatórios"
+- [x] Ações dos botões "Novo Agendamento"
 
 ---
 

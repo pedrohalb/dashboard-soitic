@@ -3,17 +3,20 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Sidebar } from './components/Sidebar';
 import { TopBar } from './components/TopBar';
 import { MobileNav } from './components/MobileNav';
+import { NewAppointmentModal } from './components/NewAppointmentModal';
 import { DashboardPage } from './pages/DashboardPage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
+import { AppointmentsPage } from './pages/AppointmentsPage';
 
 export default function App() {
   const [collapsed, setCollapsed] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const toggleCollapsed = useCallback(() => setCollapsed((c) => !c), []);
 
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-bg-base text-text-primary transition-colors duration-300">
-        <Sidebar collapsed={collapsed} onToggle={toggleCollapsed} />
+        <Sidebar collapsed={collapsed} onToggle={toggleCollapsed} onNewAppointment={() => setModalOpen(true)} />
 
         <div
           className="min-h-screen flex flex-col transition-all duration-300 ease-in-out"
@@ -23,16 +26,7 @@ export default function App() {
           <main className="flex-1">
             <Routes>
               <Route path="/" element={<DashboardPage />} />
-              <Route
-                path="/appointments"
-                element={
-                  <PlaceholderPage
-                    title="Agendamentos"
-                    icon="calendar_today"
-                    description="Gerencie todos os agendamentos da clínica. Implementado na próxima iteração."
-                  />
-                }
-              />
+              <Route path="/appointments" element={<AppointmentsPage />} />
               <Route
                 path="/patients"
                 element={
@@ -59,6 +53,7 @@ export default function App() {
 
         <MobileNav />
 
+        <NewAppointmentModal open={modalOpen} onClose={() => setModalOpen(false)} />
       </div>
     </BrowserRouter>
   );

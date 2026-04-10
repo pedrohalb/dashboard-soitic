@@ -1,12 +1,14 @@
 import axios from 'axios';
 import type {
-  Appointment,
+  Agendamento,
   DashboardStats,
   VolumeData,
-  CreateAppointmentDto,
+  CriarAgendamentoDto,
+  PaginatedResponse,
+  AppointmentFilters,
 } from '../types';
 import {
-  mockAppointments,
+  mockAgendamentos,
   mockStats,
   mockVolumeData,
 } from '../data/mockData';
@@ -33,10 +35,10 @@ export const appointmentsApi = {
   getAll: () =>
     withFallback(
       async () => {
-        const res = await api.get<Appointment[]>('/appointments');
+        const res = await api.get<Agendamento[]>('/appointments');
         return res.data;
       },
-      mockAppointments,
+      mockAgendamentos,
     ),
 
   getStats: () =>
@@ -63,34 +65,51 @@ export const appointmentsApi = {
         const res = await api.get<VolumeData[]>('/appointments/monthly-volume');
         return res.data;
       },
-      [], // fallback vazio, sem mock fake
+      [],
     ),
 
   getUpcoming: (limit = 100) =>
     withFallback(
       async () => {
-        const res = await api.get<Appointment[]>(
+        const res = await api.get<Agendamento[]>(
           `/appointments/upcoming?limit=${limit}`,
         );
         return res.data;
       },
-      mockAppointments.slice(0, limit),
+      mockAgendamentos.slice(0, limit),
     ),
 
-  create: async (dto: CreateAppointmentDto): Promise<Appointment> => {
-    const res = await api.post<Appointment>('/appointments', dto);
+  create: async (dto: CriarAgendamentoDto): Promise<Agendamento> => {
+    const res = await api.post<Agendamento>('/appointments', dto);
     return res.data;
   },
 
   update: async (
     id: number,
-    dto: Partial<CreateAppointmentDto>,
-  ): Promise<Appointment> => {
-    const res = await api.patch<Appointment>(`/appointments/${id}`, dto);
+    dto: Partial<CriarAgendamentoDto>,
+  ): Promise<Agendamento> => {
+    const res = await api.patch<Agendamento>(`/appointments/${id}`, dto);
     return res.data;
   },
 
   remove: async (id: number): Promise<void> => {
     await api.delete(`/appointments/${id}`);
   },
+
+  getPaginated: (filters: Partial<AppointmentFilters>) =>
+    withFallback(
+      async () => {
+        const params = new URLSearchParams();
+        for (const [key, value] of Object.entries(filters)) {
+          if (value !== undefined && value !== '') {
+            params.append(key, String(value));
+          }
+        }
+        const res = await api.get<PaginatedResponse<Agendamento>>(
+          `/appointments/paginated?${params.toString()}`,
+        );
+        return res.data;
+      },
+      { data: [], meta: { total: 0, page: 1, limit: 10, totalPages: 0 } },
+    ),
 };

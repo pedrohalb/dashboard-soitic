@@ -10,9 +10,10 @@ const navItems = [
 interface SidebarProps {
   collapsed: boolean;
   onToggle: () => void;
+  onNewAppointment?: () => void;
 }
 
-export function Sidebar({ collapsed, onToggle }: SidebarProps) {
+export function Sidebar({ collapsed, onToggle, onNewAppointment }: SidebarProps) {
 
   return (
     <aside
@@ -70,6 +71,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
       <div className="px-2 mt-auto">
         {collapsed ? (
           <button
+            onClick={onNewAppointment}
             className="w-full h-10 rounded-xl flex items-center justify-center transition-transform active:scale-95 shadow-lg bg-gradient-to-r from-secondary-500 to-primary-500 text-white"
             title="Novo Agendamento"
           >
@@ -77,6 +79,7 @@ export function Sidebar({ collapsed, onToggle }: SidebarProps) {
           </button>
         ) : (
           <button
+            onClick={onNewAppointment}
             className="w-full py-3 px-4 rounded-xl font-semibold flex items-center justify-center gap-2 transition-transform active:scale-95 shadow-lg font-body bg-gradient-to-r from-secondary-500 to-primary-500 text-white hover:opacity-90"
           >
             <span className="material-symbols-outlined text-sm">add</span>

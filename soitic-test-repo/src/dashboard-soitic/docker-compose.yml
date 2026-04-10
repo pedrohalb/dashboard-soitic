@@ -27,6 +27,7 @@ services:
       DB_USERNAME: postgres
       DB_PASSWORD: postgres
       DB_NAME: clinica_bem_viver
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/clinica_bem_viver
       PORT: 3001
     ports:
       - "3001:3001"

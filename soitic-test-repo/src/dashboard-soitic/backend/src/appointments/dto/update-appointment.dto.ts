@@ -1,20 +1,20 @@
 import { IsString, IsDateString, IsEnum, IsOptional } from 'class-validator';
-import { AppointmentStatus, AppointmentType } from '../appointment.entity';
+import { StatusAgendamento, TipoAgendamento } from '../appointment.enums';
 
 export class UpdateAppointmentDto {
   @IsString()
   @IsOptional()
-  patientName?: string;
+  nomePaciente?: string;
 
   @IsDateString()
   @IsOptional()
-  appointmentDate?: string;
+  dataAgendamento?: string;
 
-  @IsEnum(AppointmentStatus)
+  @IsEnum(StatusAgendamento)
   @IsOptional()
-  status?: AppointmentStatus;
+  status?: StatusAgendamento;
 
-  @IsEnum(AppointmentType)
+  @IsEnum(TipoAgendamento)
   @IsOptional()
-  type?: AppointmentType;
+  tipo?: TipoAgendamento;
 }

@@ -1,4 +1,4 @@
-export type AppointmentStatus =
+export type StatusAgendamento =
   | 'confirmado'
   | 'pendente'
   | 'cancelado'
@@ -6,20 +6,20 @@ export type AppointmentStatus =
   | 'a caminho'
   | 'atrasado';
 
-export type AppointmentType =
+export type TipoAgendamento =
   | 'primeira consulta'
   | 'retorno'
   | 'exame'
   | 'urgência';
 
-export interface Appointment {
+export interface Agendamento {
   id: number;
-  patientName: string;
-  appointmentDate: string;
-  status: AppointmentStatus;
-  type: AppointmentType;
-  createdAt: string;
-  updatedAt: string;
+  nomePaciente: string;
+  dataAgendamento: string;
+  status: StatusAgendamento;
+  tipo: TipoAgendamento;
+  criadoEm: string;
+  atualizadoEm: string;
 }
 
 export interface DashboardStats {
@@ -36,9 +36,31 @@ export interface VolumeData {
   count: number;
 }
 
-export interface CreateAppointmentDto {
-  patientName: string;
-  appointmentDate: string;
-  status: AppointmentStatus;
-  type: AppointmentType;
+export interface PaginatedResponse<T> {
+  data: T[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
+export interface AppointmentFilters {
+  page: number;
+  limit: number;
+  search: string;
+  status: string;
+  tipo: string;
+  dateFrom: string;
+  dateTo: string;
+  sortBy: string;
+  sortOrder: 'asc' | 'desc';
+}
+
+export interface CriarAgendamentoDto {
+  nomePaciente: string;
+  dataAgendamento: string;
+  status: StatusAgendamento;
+  tipo: TipoAgendamento;
 }

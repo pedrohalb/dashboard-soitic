@@ -84,3 +84,22 @@ body {
   scrollbar-width: thin;
   scrollbar-color: var(--color-border-strong) var(--color-surface);
 }
+
+/* Custom select — seta consistente em light/dark */
+select.custom-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%236A718F' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  padding-right: 2rem;
+}
+
+.dark select.custom-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24'%3E%3Cpath fill='%23B4B8CB' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+}
+
+/* Date/datetime inputs — dark mode color-scheme */
+.dark input[type="date"],
+.dark input[type="datetime-local"] {
+  color-scheme: dark;
+}

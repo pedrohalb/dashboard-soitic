@@ -37,6 +37,31 @@ export class AppointmentsController {
     return this.service.getMonthlyVolume();
   }
 
+  @Get('paginated')
+  findPaginated(
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+    @Query('search') search?: string,
+    @Query('status') status?: string,
+    @Query('tipo') tipo?: string,
+    @Query('dateFrom') dateFrom?: string,
+    @Query('dateTo') dateTo?: string,
+    @Query('sortBy') sortBy?: string,
+    @Query('sortOrder') sortOrder?: 'asc' | 'desc',
+  ) {
+    return this.service.findPaginated({
+      page: page ? Number(page) : undefined,
+      limit: limit ? Number(limit) : undefined,
+      search,
+      status,
+      tipo,
+      dateFrom,
+      dateTo,
+      sortBy,
+      sortOrder,
+    });
+  }
+
   @Get('upcoming')
   getUpcoming(@Query('limit') limit?: string) {
     return this.service.getUpcoming(limit ? Number(limit) : 4);

@@ -121,7 +121,7 @@ dashboard-soitic/
 ### Opção 1: Docker Compose (recomendado)
 
 ```bash
-cd backend
+cd soitic-test-repo/src/dashboard-soitic/backend
 cp .env.example .env
 cd ..
 docker-compose up -d --build

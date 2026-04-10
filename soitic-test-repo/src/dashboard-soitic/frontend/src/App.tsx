@@ -1,12 +1,12 @@
-import { useState, useCallback } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Sidebar } from './components/Sidebar';
-import { TopBar } from './components/TopBar';
-import { MobileNav } from './components/MobileNav';
-import { NewAppointmentModal } from './components/NewAppointmentModal';
-import { DashboardPage } from './pages/DashboardPage';
-import { PlaceholderPage } from './pages/PlaceholderPage';
-import { AppointmentsPage } from './pages/AppointmentsPage';
+import { useState, useCallback } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Sidebar } from "./components/Sidebar";
+import { TopBar } from "./components/TopBar";
+import { MobileNav } from "./components/MobileNav";
+import { NewAppointmentModal } from "./components/NewAppointmentModal";
+import { DashboardPage } from "./pages/DashboardPage";
+import { PlaceholderPage } from "./pages/PlaceholderPage";
+import { AppointmentsPage } from "./pages/AppointmentsPage";
 
 export default function App() {
   const [collapsed, setCollapsed] = useState(false);
@@ -16,11 +16,15 @@ export default function App() {
   return (
     <BrowserRouter>
       <div className="min-h-screen bg-bg-base text-text-primary transition-colors duration-300">
-        <Sidebar collapsed={collapsed} onToggle={toggleCollapsed} onNewAppointment={() => setModalOpen(true)} />
+        <Sidebar
+          collapsed={collapsed}
+          onToggle={toggleCollapsed}
+          onNewAppointment={() => setModalOpen(true)}
+        />
 
         <div
           className="min-h-screen flex flex-col transition-all duration-300 ease-in-out"
-          style={{ marginLeft: collapsed ? '72px' : '256px' }}
+          style={{ marginLeft: collapsed ? "72px" : "256px" }}
         >
           <TopBar />
           <main className="flex-1">
@@ -53,7 +57,10 @@ export default function App() {
 
         <MobileNav />
 
-        <NewAppointmentModal open={modalOpen} onClose={() => setModalOpen(false)} />
+        <NewAppointmentModal
+          open={modalOpen}
+          onClose={() => setModalOpen(false)}
+        />
       </div>
     </BrowserRouter>
   );

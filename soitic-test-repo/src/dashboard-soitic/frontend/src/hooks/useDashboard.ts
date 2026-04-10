@@ -1,6 +1,6 @@
-import { useState, useEffect, useCallback } from 'react';
-import type { Agendamento, DashboardStats, VolumeData } from '../types';
-import { appointmentsApi } from '../services/api';
+import { useState, useEffect, useCallback } from "react";
+import type { Agendamento, DashboardStats, VolumeData } from "../types";
+import { appointmentsApi } from "../services/api";
 
 interface DashboardData {
   stats: DashboardStats | null;
@@ -24,18 +24,19 @@ export function useDashboard(): DashboardData {
     setLoading(true);
     setError(null);
     try {
-      const [statsData, volumeData, monthlyData, upcomingData] = await Promise.all([
-        appointmentsApi.getStats(),
-        appointmentsApi.getVolumeData(),
-        appointmentsApi.getMonthlyVolume(),
-        appointmentsApi.getUpcoming(),
-      ]);
+      const [statsData, volumeData, monthlyData, upcomingData] =
+        await Promise.all([
+          appointmentsApi.getStats(),
+          appointmentsApi.getVolumeData(),
+          appointmentsApi.getMonthlyVolume(),
+          appointmentsApi.getUpcoming(),
+        ]);
       setStats(statsData);
       setVolumeData(volumeData);
       setMonthlyVolume(monthlyData);
       setUpcoming(upcomingData);
     } catch (err) {
-      setError('Erro ao carregar dados do dashboard.');
+      setError("Erro ao carregar dados do dashboard.");
       console.error(err);
     } finally {
       setLoading(false);
@@ -46,5 +47,13 @@ export function useDashboard(): DashboardData {
     fetchAll();
   }, [fetchAll]);
 
-  return { stats, weeklyVolume, monthlyVolume, upcoming, loading, error, refetch: fetchAll };
+  return {
+    stats,
+    weeklyVolume,
+    monthlyVolume,
+    upcoming,
+    loading,
+    error,
+    refetch: fetchAll,
+  };
 }

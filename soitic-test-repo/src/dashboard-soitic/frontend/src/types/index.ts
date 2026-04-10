@@ -1,16 +1,16 @@
 export type StatusAgendamento =
-  | 'confirmado'
-  | 'pendente'
-  | 'cancelado'
-  | 'em espera'
-  | 'a caminho'
-  | 'atrasado';
+  | "confirmado"
+  | "pendente"
+  | "cancelado"
+  | "em espera"
+  | "a caminho"
+  | "atrasado";
 
 export type TipoAgendamento =
-  | 'primeira consulta'
-  | 'retorno'
-  | 'exame'
-  | 'urgência';
+  | "primeira consulta"
+  | "retorno"
+  | "exame"
+  | "urgência";
 
 export interface Agendamento {
   id: number;
@@ -55,7 +55,7 @@ export interface AppointmentFilters {
   dateFrom: string;
   dateTo: string;
   sortBy: string;
-  sortOrder: 'asc' | 'desc';
+  sortOrder: "asc" | "desc";
 }
 
 export interface CriarAgendamentoDto {

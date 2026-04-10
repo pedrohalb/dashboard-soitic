@@ -1,7 +1,11 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import type { CriarAgendamentoDto, StatusAgendamento, TipoAgendamento } from '../types';
-import { appointmentsApi } from '../services/api';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import type {
+  CriarAgendamentoDto,
+  StatusAgendamento,
+  TipoAgendamento,
+} from "../types";
+import { appointmentsApi } from "../services/api";
 
 interface Props {
   open: boolean;
@@ -10,42 +14,44 @@ interface Props {
 }
 
 const statusOptions: { value: StatusAgendamento; label: string }[] = [
-  { value: 'pendente', label: 'Pendente' },
-  { value: 'confirmado', label: 'Confirmado' },
-  { value: 'em espera', label: 'Em Espera' },
-  { value: 'a caminho', label: 'A Caminho' },
+  { value: "pendente", label: "Pendente" },
+  { value: "confirmado", label: "Confirmado" },
+  { value: "em espera", label: "Em Espera" },
+  { value: "a caminho", label: "A Caminho" },
 ];
 
 const tipoOptions: { value: TipoAgendamento; label: string }[] = [
-  { value: 'primeira consulta', label: 'Primeira Consulta' },
-  { value: 'retorno', label: 'Retorno' },
-  { value: 'exame', label: 'Exame' },
-  { value: 'urgência', label: 'Urgência' },
+  { value: "primeira consulta", label: "Primeira Consulta" },
+  { value: "retorno", label: "Retorno" },
+  { value: "exame", label: "Exame" },
+  { value: "urgência", label: "Urgência" },
 ];
 
 export function NewAppointmentModal({ open, onClose, onCreated }: Props) {
   const navigate = useNavigate();
   const [form, setForm] = useState<CriarAgendamentoDto>({
-    nomePaciente: '',
-    dataAgendamento: '',
-    status: 'pendente',
-    tipo: 'primeira consulta',
+    nomePaciente: "",
+    dataAgendamento: "",
+    status: "pendente",
+    tipo: "primeira consulta",
   });
   const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   if (!open) return null;
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+  ) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setError('');
+    setError("");
 
     if (!form.nomePaciente.trim() || !form.dataAgendamento) {
-      setError('Preencha todos os campos obrigatórios.');
+      setError("Preencha todos os campos obrigatórios.");
       return;
     }
 
@@ -57,10 +63,17 @@ export function NewAppointmentModal({ open, onClose, onCreated }: Props) {
       });
       onCreated?.();
       onClose();
-      setForm({ nomePaciente: '', dataAgendamento: '', status: 'pendente', tipo: 'primeira consulta' });
-      navigate('/appointments');
+      setForm({
+        nomePaciente: "",
+        dataAgendamento: "",
+        status: "pendente",
+        tipo: "primeira consulta",
+      });
+      navigate("/appointments");
     } catch {
-      setError('Erro ao criar agendamento. Verifique se o backend está disponível.');
+      setError(
+        "Erro ao criar agendamento. Verifique se o backend está disponível.",
+      );
     } finally {
       setSubmitting(false);
     }
@@ -180,7 +193,9 @@ export function NewAppointmentModal({ open, onClose, onCreated }: Props) {
               className="px-6 py-2.5 rounded-xl text-sm font-semibold font-body text-white bg-gradient-to-r from-secondary-500 to-primary-500 hover:opacity-90 transition-opacity shadow-lg disabled:opacity-50 flex items-center gap-2"
             >
               {submitting && (
-                <span className="material-symbols-outlined text-base animate-spin">progress_activity</span>
+                <span className="material-symbols-outlined text-base animate-spin">
+                  progress_activity
+                </span>
               )}
               Criar Agendamento
             </button>

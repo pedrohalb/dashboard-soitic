@@ -1,10 +1,10 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink } from "react-router-dom";
 
 const navItems = [
-  { to: '/', icon: 'dashboard', label: 'Dashboard' },
-  { to: '/appointments', icon: 'calendar_today', label: 'Agendamentos' },
-  { to: '/patients', icon: 'group', label: 'Pacientes' },
-  { to: '/settings', icon: 'settings', label: 'Configurações' },
+  { to: "/", icon: "dashboard", label: "Dashboard" },
+  { to: "/appointments", icon: "calendar_today", label: "Agendamentos" },
+  { to: "/patients", icon: "group", label: "Pacientes" },
+  { to: "/settings", icon: "settings", label: "Configurações" },
 ];
 
 interface SidebarProps {
@@ -13,12 +13,15 @@ interface SidebarProps {
   onNewAppointment?: () => void;
 }
 
-export function Sidebar({ collapsed, onToggle, onNewAppointment }: SidebarProps) {
-
+export function Sidebar({
+  collapsed,
+  onToggle,
+  onNewAppointment,
+}: SidebarProps) {
   return (
     <aside
       className="h-screen fixed left-0 top-0 hidden md:flex flex-col py-6 z-40 transition-all duration-300 ease-in-out bg-surface border-r border-border-subtle"
-      style={{ width: collapsed ? '72px' : '256px' }}
+      style={{ width: collapsed ? "72px" : "256px" }}
     >
       {/* Logo + toggle */}
       <div className="px-4 mb-10 flex items-center justify-between overflow-hidden">
@@ -32,11 +35,14 @@ export function Sidebar({ collapsed, onToggle, onNewAppointment }: SidebarProps)
         <button
           onClick={onToggle}
           className="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 transition-colors hover:bg-surface-hover text-text-muted"
-          style={{ marginLeft: collapsed ? 'auto' : '0', marginRight: collapsed ? 'auto' : '0' }}
-          title={collapsed ? 'Expandir menu' : 'Minimizar menu'}
+          style={{
+            marginLeft: collapsed ? "auto" : "0",
+            marginRight: collapsed ? "auto" : "0",
+          }}
+          title={collapsed ? "Expandir menu" : "Minimizar menu"}
         >
           <span className="material-symbols-outlined text-xl">
-            {collapsed ? 'menu_open' : 'menu'}
+            {collapsed ? "menu_open" : "menu"}
           </span>
         </button>
       </div>
@@ -47,22 +53,22 @@ export function Sidebar({ collapsed, onToggle, onNewAppointment }: SidebarProps)
           <NavLink
             key={to}
             to={to}
-            end={to === '/'}
+            end={to === "/"}
             className={({ isActive }) =>
               `flex items-center p-3 rounded-lg text-sm font-medium transition-all ${
-                collapsed ? 'justify-center' : 'gap-3'
+                collapsed ? "justify-center" : "gap-3"
               } ${
                 isActive
-                  ? 'bg-gradient-to-r from-secondary-500 to-primary-500 text-white shadow-sm font-semibold'
-                  : 'text-text-secondary hover:bg-surface-hover hover:text-primary-500'
+                  ? "bg-gradient-to-r from-secondary-500 to-primary-500 text-white shadow-sm font-semibold"
+                  : "text-text-secondary hover:bg-surface-hover hover:text-primary-500"
               }`
             }
             title={collapsed ? label : undefined}
           >
-            <span className="material-symbols-outlined text-xl flex-shrink-0">{icon}</span>
-            {!collapsed && (
-              <span className="font-body">{label}</span>
-            )}
+            <span className="material-symbols-outlined text-xl flex-shrink-0">
+              {icon}
+            </span>
+            {!collapsed && <span className="font-body">{label}</span>}
           </NavLink>
         ))}
       </nav>

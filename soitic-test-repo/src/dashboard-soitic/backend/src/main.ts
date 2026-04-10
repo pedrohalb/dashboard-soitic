@@ -23,7 +23,9 @@ async function bootstrap() {
 
   const port = process.env.PORT ?? 3001;
   await app.listen(port);
-  console.log(`🚀 Clínica Bem Viver API running on http://localhost:${port}/api`);
+  console.log(
+    `🚀 Clínica Bem Viver API rodando em http://localhost:${port}/api`,
+  );
 }
 
 bootstrap();

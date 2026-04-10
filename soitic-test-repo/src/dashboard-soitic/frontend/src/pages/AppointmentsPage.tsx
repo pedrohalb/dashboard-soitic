@@ -1,12 +1,12 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 import type {
   Agendamento,
   AppointmentFilters,
   PaginatedResponse,
   StatusAgendamento,
   TipoAgendamento,
-} from '../types';
-import { appointmentsApi } from '../services/api';
+} from "../types";
+import { appointmentsApi } from "../services/api";
 import {
   statusConfig,
   tipoConfig,
@@ -14,24 +14,24 @@ import {
   formatDate,
   getInitials,
   getAvatarColor,
-} from '../utils/appointmentUtils';
+} from "../utils/appointmentUtils";
 
 const STATUS_OPTIONS = [
-  { value: '', label: 'Todos os status' },
-  { value: 'confirmado', label: 'Confirmado' },
-  { value: 'pendente', label: 'Pendente' },
-  { value: 'cancelado', label: 'Cancelado' },
-  { value: 'em espera', label: 'Em Espera' },
-  { value: 'a caminho', label: 'A Caminho' },
-  { value: 'atrasado', label: 'Atrasado' },
+  { value: "", label: "Todos os status" },
+  { value: "confirmado", label: "Confirmado" },
+  { value: "pendente", label: "Pendente" },
+  { value: "cancelado", label: "Cancelado" },
+  { value: "em espera", label: "Em Espera" },
+  { value: "a caminho", label: "A Caminho" },
+  { value: "atrasado", label: "Atrasado" },
 ];
 
 const TIPO_OPTIONS = [
-  { value: '', label: 'Todos os tipos' },
-  { value: 'primeira consulta', label: 'Primeira Consulta' },
-  { value: 'retorno', label: 'Retorno' },
-  { value: 'exame', label: 'Exame' },
-  { value: 'urgência', label: 'Urgência' },
+  { value: "", label: "Todos os tipos" },
+  { value: "primeira consulta", label: "Primeira Consulta" },
+  { value: "retorno", label: "Retorno" },
+  { value: "exame", label: "Exame" },
+  { value: "urgência", label: "Urgência" },
 ];
 
 const LIMIT_OPTIONS = [10, 20, 50];
@@ -39,22 +39,22 @@ const LIMIT_OPTIONS = [10, 20, 50];
 const defaultFilters: AppointmentFilters = {
   page: 1,
   limit: 10,
-  search: '',
-  status: '',
-  tipo: '',
-  dateFrom: '',
-  dateTo: '',
-  sortBy: 'dataAgendamento',
-  sortOrder: 'desc',
+  search: "",
+  status: "",
+  tipo: "",
+  dateFrom: "",
+  dateTo: "",
+  sortBy: "dataAgendamento",
+  sortOrder: "desc",
 };
 
 function toDatetimeLocal(iso: string): string {
   const d = new Date(iso);
-  const pad = (n: number) => String(n).padStart(2, '0');
+  const pad = (n: number) => String(n).padStart(2, "0");
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 }
 
-/* ─── Edit Modal ─── */
+/* ─── modal editar ─── */
 function EditModal({
   appointment,
   onClose,
@@ -89,7 +89,7 @@ function EditModal({
   };
 
   const inputClass =
-    'w-full px-3 py-2 rounded-lg border border-border-subtle bg-bg-base text-sm text-text-primary focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors font-body';
+    "w-full px-3 py-2 rounded-lg border border-border-subtle bg-bg-base text-sm text-text-primary focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors font-body";
   const selectClass = `${inputClass} custom-select`;
 
   return (
@@ -109,7 +109,9 @@ function EditModal({
             onClick={onClose}
             className="p-1 rounded-lg hover:bg-surface-hover transition-colors"
           >
-            <span className="material-symbols-outlined text-[20px] text-text-muted">close</span>
+            <span className="material-symbols-outlined text-[20px] text-text-muted">
+              close
+            </span>
           </button>
         </div>
 
@@ -121,7 +123,9 @@ function EditModal({
             <input
               type="text"
               value={form.nomePaciente}
-              onChange={(e) => setForm((f) => ({ ...f, nomePaciente: e.target.value }))}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, nomePaciente: e.target.value }))
+              }
               required
               className={inputClass}
             />
@@ -135,7 +139,9 @@ function EditModal({
               type="datetime-local"
               lang="pt-BR"
               value={form.dataAgendamento}
-              onChange={(e) => setForm((f) => ({ ...f, dataAgendamento: e.target.value }))}
+              onChange={(e) =>
+                setForm((f) => ({ ...f, dataAgendamento: e.target.value }))
+              }
               required
               className={inputClass}
             />
@@ -148,11 +154,15 @@ function EditModal({
               </label>
               <select
                 value={form.status}
-                onChange={(e) => setForm((f) => ({ ...f, status: e.target.value }))}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, status: e.target.value }))
+                }
                 className={selectClass}
               >
                 {STATUS_OPTIONS.filter((o) => o.value).map((o) => (
-                  <option key={o.value} value={o.value}>{o.label}</option>
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
                 ))}
               </select>
             </div>
@@ -162,11 +172,15 @@ function EditModal({
               </label>
               <select
                 value={form.tipo}
-                onChange={(e) => setForm((f) => ({ ...f, tipo: e.target.value }))}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, tipo: e.target.value }))
+                }
                 className={selectClass}
               >
                 {TIPO_OPTIONS.filter((o) => o.value).map((o) => (
-                  <option key={o.value} value={o.value}>{o.label}</option>
+                  <option key={o.value} value={o.value}>
+                    {o.label}
+                  </option>
                 ))}
               </select>
             </div>
@@ -185,7 +199,7 @@ function EditModal({
               disabled={saving}
               className="px-4 py-2 rounded-lg text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 disabled:opacity-50 transition-colors font-body"
             >
-              {saving ? 'Salvando...' : 'Salvar'}
+              {saving ? "Salvando..." : "Salvar"}
             </button>
           </div>
         </form>
@@ -194,7 +208,7 @@ function EditModal({
   );
 }
 
-/* ─── Delete Confirm Modal ─── */
+/* ─── modal deletar ─── */
 function DeleteModal({
   appointment,
   onClose,
@@ -227,14 +241,17 @@ function DeleteModal({
       >
         <div className="p-6 text-center space-y-4">
           <div className="w-12 h-12 rounded-full bg-error/10 flex items-center justify-center mx-auto">
-            <span className="material-symbols-outlined text-2xl text-error">delete_forever</span>
+            <span className="material-symbols-outlined text-2xl text-error">
+              delete_forever
+            </span>
           </div>
           <div>
             <h3 className="text-lg font-bold font-headline text-text-primary">
               Remover agendamento?
             </h3>
             <p className="mt-1 text-sm text-text-secondary font-body">
-              O agendamento de <strong>{appointment.nomePaciente}</strong> sera removido permanentemente.
+              O agendamento de <strong>{appointment.nomePaciente}</strong> sera
+              removido permanentemente.
             </p>
           </div>
           <div className="flex justify-center gap-2 pt-2">
@@ -249,7 +266,7 @@ function DeleteModal({
               disabled={deleting}
               className="px-4 py-2 rounded-lg text-sm font-medium text-white bg-error hover:opacity-90 disabled:opacity-50 transition-colors font-body"
             >
-              {deleting ? 'Removendo...' : 'Remover'}
+              {deleting ? "Removendo..." : "Remover"}
             </button>
           </div>
         </div>
@@ -261,9 +278,11 @@ function DeleteModal({
 /* ─── Main Page ─── */
 export function AppointmentsPage() {
   const [filters, setFilters] = useState<AppointmentFilters>(defaultFilters);
-  const [result, setResult] = useState<PaginatedResponse<Agendamento> | null>(null);
+  const [result, setResult] = useState<PaginatedResponse<Agendamento> | null>(
+    null,
+  );
   const [loading, setLoading] = useState(true);
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState("");
   const [editing, setEditing] = useState<Agendamento | null>(null);
   const [deleting, setDeleting] = useState<Agendamento | null>(null);
 
@@ -286,7 +305,10 @@ export function AppointmentsPage() {
     return () => clearTimeout(timeout);
   }, [searchInput]);
 
-  const updateFilter = (key: keyof AppointmentFilters, value: string | number) => {
+  const updateFilter = (
+    key: keyof AppointmentFilters,
+    value: string | number,
+  ) => {
     setFilters((prev) => ({ ...prev, [key]: value, page: 1 }));
   };
 
@@ -294,12 +316,13 @@ export function AppointmentsPage() {
     setFilters((prev) => ({
       ...prev,
       sortBy: field,
-      sortOrder: prev.sortBy === field && prev.sortOrder === 'asc' ? 'desc' : 'asc',
+      sortOrder:
+        prev.sortBy === field && prev.sortOrder === "asc" ? "desc" : "asc",
     }));
   };
 
   const clearFilters = () => {
-    setSearchInput('');
+    setSearchInput("");
     setFilters(defaultFilters);
   };
 
@@ -315,13 +338,23 @@ export function AppointmentsPage() {
 
   const meta = result?.meta ?? { total: 0, page: 1, limit: 10, totalPages: 0 };
   const data = result?.data ?? [];
-  const hasActiveFilters = filters.search || filters.status || filters.tipo || filters.dateFrom || filters.dateTo;
+  const hasActiveFilters =
+    filters.search ||
+    filters.status ||
+    filters.tipo ||
+    filters.dateFrom ||
+    filters.dateTo;
 
   const SortIcon = ({ field }: { field: string }) => {
-    if (filters.sortBy !== field) return <span className="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-40">unfold_more</span>;
+    if (filters.sortBy !== field)
+      return (
+        <span className="material-symbols-outlined text-[16px] opacity-0 group-hover:opacity-40">
+          unfold_more
+        </span>
+      );
     return (
       <span className="material-symbols-outlined text-[16px] text-primary-500">
-        {filters.sortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward'}
+        {filters.sortOrder === "asc" ? "arrow_upward" : "arrow_downward"}
       </span>
     );
   };
@@ -355,15 +388,19 @@ export function AppointmentsPage() {
           </p>
         </div>
         <div className="flex items-center gap-2 text-sm text-text-muted font-body">
-          <span className="material-symbols-outlined text-[18px]">database</span>
-          {meta.total} registro{meta.total !== 1 ? 's' : ''}
+          <span className="material-symbols-outlined text-[18px]">
+            database
+          </span>
+          {meta.total} registro{meta.total !== 1 ? "s" : ""}
         </div>
       </div>
 
       {/* Filters */}
       <div className="bg-surface border border-border-subtle rounded-xl p-4 space-y-4">
         <div className="flex items-center gap-2 text-sm font-semibold text-text-primary font-body">
-          <span className="material-symbols-outlined text-[18px]">filter_list</span>
+          <span className="material-symbols-outlined text-[18px]">
+            filter_list
+          </span>
           Filtros
         </div>
 
@@ -385,22 +422,26 @@ export function AppointmentsPage() {
           {/* Status */}
           <select
             value={filters.status}
-            onChange={(e) => updateFilter('status', e.target.value)}
+            onChange={(e) => updateFilter("status", e.target.value)}
             className="custom-select px-3 py-2 rounded-lg border border-border-subtle bg-bg-base text-sm text-text-primary focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors font-body"
           >
             {STATUS_OPTIONS.map((o) => (
-              <option key={o.value} value={o.value}>{o.label}</option>
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
             ))}
           </select>
 
           {/* Tipo */}
           <select
             value={filters.tipo}
-            onChange={(e) => updateFilter('tipo', e.target.value)}
+            onChange={(e) => updateFilter("tipo", e.target.value)}
             className="custom-select px-3 py-2 rounded-lg border border-border-subtle bg-bg-base text-sm text-text-primary focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors font-body"
           >
             {TIPO_OPTIONS.map((o) => (
-              <option key={o.value} value={o.value}>{o.label}</option>
+              <option key={o.value} value={o.value}>
+                {o.label}
+              </option>
             ))}
           </select>
 
@@ -410,7 +451,9 @@ export function AppointmentsPage() {
               onClick={clearFilters}
               className="flex items-center justify-center gap-1 px-3 py-2 rounded-lg text-sm font-medium text-error hover:bg-error/10 transition-colors font-body"
             >
-              <span className="material-symbols-outlined text-[16px]">close</span>
+              <span className="material-symbols-outlined text-[16px]">
+                close
+              </span>
               Limpar
             </button>
           )}
@@ -423,7 +466,7 @@ export function AppointmentsPage() {
             type="date"
             lang="pt-BR"
             value={filters.dateFrom}
-            onChange={(e) => updateFilter('dateFrom', e.target.value)}
+            onChange={(e) => updateFilter("dateFrom", e.target.value)}
             className="px-3 py-1.5 rounded-lg border border-border-subtle bg-bg-base text-sm text-text-primary focus:outline-none focus:border-primary-500 transition-colors font-body"
           />
           <span className="text-text-muted text-sm">até</span>
@@ -431,7 +474,7 @@ export function AppointmentsPage() {
             type="date"
             lang="pt-BR"
             value={filters.dateTo}
-            onChange={(e) => updateFilter('dateTo', e.target.value)}
+            onChange={(e) => updateFilter("dateTo", e.target.value)}
             className="px-3 py-1.5 rounded-lg border border-border-subtle bg-bg-base text-sm text-text-primary focus:outline-none focus:border-primary-500 transition-colors font-body"
           />
         </div>
@@ -445,7 +488,7 @@ export function AppointmentsPage() {
               <tr className="border-b border-border-subtle bg-surface-hover">
                 <th
                   className="text-left px-4 py-3 font-semibold text-text-secondary font-body cursor-pointer group"
-                  onClick={() => handleSort('nomePaciente')}
+                  onClick={() => handleSort("nomePaciente")}
                 >
                   <div className="flex items-center gap-1">
                     Paciente <SortIcon field="nomePaciente" />
@@ -453,7 +496,7 @@ export function AppointmentsPage() {
                 </th>
                 <th
                   className="text-left px-4 py-3 font-semibold text-text-secondary font-body cursor-pointer group"
-                  onClick={() => handleSort('dataAgendamento')}
+                  onClick={() => handleSort("dataAgendamento")}
                 >
                   <div className="flex items-center gap-1">
                     Data / Hora <SortIcon field="dataAgendamento" />
@@ -461,7 +504,7 @@ export function AppointmentsPage() {
                 </th>
                 <th
                   className="text-left px-4 py-3 font-semibold text-text-secondary font-body cursor-pointer group"
-                  onClick={() => handleSort('tipo')}
+                  onClick={() => handleSort("tipo")}
                 >
                   <div className="flex items-center gap-1">
                     Tipo <SortIcon field="tipo" />
@@ -469,7 +512,7 @@ export function AppointmentsPage() {
                 </th>
                 <th
                   className="text-left px-4 py-3 font-semibold text-text-secondary font-body cursor-pointer group"
-                  onClick={() => handleSort('status')}
+                  onClick={() => handleSort("status")}
                 >
                   <div className="flex items-center gap-1">
                     Status <SortIcon field="status" />
@@ -483,25 +526,46 @@ export function AppointmentsPage() {
             <tbody>
               {loading ? (
                 Array.from({ length: filters.limit }).map((_, i) => (
-                  <tr key={i} className="border-b border-border-subtle last:border-0">
-                    <td className="px-4 py-3"><div className="h-4 w-32 bg-surface-hover rounded animate-pulse" /></td>
-                    <td className="px-4 py-3"><div className="h-4 w-28 bg-surface-hover rounded animate-pulse" /></td>
-                    <td className="px-4 py-3"><div className="h-4 w-20 bg-surface-hover rounded animate-pulse" /></td>
-                    <td className="px-4 py-3"><div className="h-4 w-20 bg-surface-hover rounded animate-pulse" /></td>
-                    <td className="px-4 py-3"><div className="h-4 w-16 bg-surface-hover rounded animate-pulse mx-auto" /></td>
+                  <tr
+                    key={i}
+                    className="border-b border-border-subtle last:border-0"
+                  >
+                    <td className="px-4 py-3">
+                      <div className="h-4 w-32 bg-surface-hover rounded animate-pulse" />
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="h-4 w-28 bg-surface-hover rounded animate-pulse" />
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="h-4 w-20 bg-surface-hover rounded animate-pulse" />
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="h-4 w-20 bg-surface-hover rounded animate-pulse" />
+                    </td>
+                    <td className="px-4 py-3">
+                      <div className="h-4 w-16 bg-surface-hover rounded animate-pulse mx-auto" />
+                    </td>
                   </tr>
                 ))
               ) : data.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-4 py-12 text-center">
-                    <span className="material-symbols-outlined text-4xl text-text-muted mb-2 block">search_off</span>
-                    <p className="text-text-muted font-body">Nenhum agendamento encontrado</p>
+                    <span className="material-symbols-outlined text-4xl text-text-muted mb-2 block">
+                      search_off
+                    </span>
+                    <p className="text-text-muted font-body">
+                      Nenhum agendamento encontrado
+                    </p>
                   </td>
                 </tr>
               ) : (
                 data.map((a) => {
-                  const st = statusConfig[a.status] ?? { label: a.status, bg: 'bg-[#eceef0]', text: 'text-[#40484f]' };
-                  const tp = tipoConfig[a.tipo] ?? { icon: 'event' };
+                  const st = statusConfig[a.status] ?? {
+                    label: a.status,
+                    bg: "bg-[#eceef0]",
+                    text: "text-[#40484f]",
+                  };
+                  const tp = tipoConfig[a.tipo] ?? { icon: "event" };
                   return (
                     <tr
                       key={a.id}
@@ -509,23 +573,32 @@ export function AppointmentsPage() {
                     >
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
-                          <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold ${getAvatarColor(a.nomePaciente)}`}>
+                          <div
+                            className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold ${getAvatarColor(a.nomePaciente)}`}
+                          >
                             {getInitials(a.nomePaciente)}
                           </div>
-                          <span className="font-medium text-text-primary font-body">{a.nomePaciente}</span>
+                          <span className="font-medium text-text-primary font-body">
+                            {a.nomePaciente}
+                          </span>
                         </div>
                       </td>
                       <td className="px-4 py-3 text-text-secondary font-body">
-                        {formatDate(a.dataAgendamento)} &middot; {formatTime(a.dataAgendamento)}
+                        {formatDate(a.dataAgendamento)} &middot;{" "}
+                        {formatTime(a.dataAgendamento)}
                       </td>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-1.5 text-text-secondary font-body">
-                          <span className="material-symbols-outlined text-[16px]">{tp.icon}</span>
+                          <span className="material-symbols-outlined text-[16px]">
+                            {tp.icon}
+                          </span>
                           <span className="capitalize">{a.tipo}</span>
                         </div>
                       </td>
                       <td className="px-4 py-3">
-                        <span className={`inline-block px-2.5 py-0.5 text-xs font-bold rounded-full ${st.bg} ${st.text}`}>
+                        <span
+                          className={`inline-block px-2.5 py-0.5 text-xs font-bold rounded-full ${st.bg} ${st.text}`}
+                        >
                           {st.label}
                         </span>
                       </td>
@@ -536,14 +609,18 @@ export function AppointmentsPage() {
                             className="p-1.5 rounded-lg hover:bg-primary-500/10 text-text-muted hover:text-primary-500 transition-colors"
                             title="Editar"
                           >
-                            <span className="material-symbols-outlined text-[18px]">edit</span>
+                            <span className="material-symbols-outlined text-[18px]">
+                              edit
+                            </span>
                           </button>
                           <button
                             onClick={() => setDeleting(a)}
                             className="p-1.5 rounded-lg hover:bg-error/10 text-text-muted hover:text-error transition-colors"
                             title="Remover"
                           >
-                            <span className="material-symbols-outlined text-[18px]">delete</span>
+                            <span className="material-symbols-outlined text-[18px]">
+                              delete
+                            </span>
                           </button>
                         </div>
                       </td>
@@ -562,16 +639,16 @@ export function AppointmentsPage() {
               <span>Exibindo</span>
               <select
                 value={filters.limit}
-                onChange={(e) => updateFilter('limit', Number(e.target.value))}
+                onChange={(e) => updateFilter("limit", Number(e.target.value))}
                 className="custom-select px-2 py-1 rounded border border-border-subtle bg-bg-base text-text-primary text-sm font-body"
               >
                 {LIMIT_OPTIONS.map((n) => (
-                  <option key={n} value={n}>{n}</option>
+                  <option key={n} value={n}>
+                    {n}
+                  </option>
                 ))}
               </select>
-              <span>
-                de {meta.total}
-              </span>
+              <span>de {meta.total}</span>
             </div>
 
             <div className="flex items-center gap-1">
@@ -581,7 +658,9 @@ export function AppointmentsPage() {
                 className="p-1.5 rounded-lg hover:bg-surface-hover disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                 title="Primeira pagina"
               >
-                <span className="material-symbols-outlined text-[20px]">first_page</span>
+                <span className="material-symbols-outlined text-[20px]">
+                  first_page
+                </span>
               </button>
               <button
                 onClick={() => setFilters((f) => ({ ...f, page: f.page - 1 }))}
@@ -589,7 +668,9 @@ export function AppointmentsPage() {
                 className="p-1.5 rounded-lg hover:bg-surface-hover disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                 title="Anterior"
               >
-                <span className="material-symbols-outlined text-[20px]">chevron_left</span>
+                <span className="material-symbols-outlined text-[20px]">
+                  chevron_left
+                </span>
               </button>
 
               <span className="px-3 py-1 text-sm font-medium font-body text-text-primary">
@@ -602,15 +683,21 @@ export function AppointmentsPage() {
                 className="p-1.5 rounded-lg hover:bg-surface-hover disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                 title="Proxima"
               >
-                <span className="material-symbols-outlined text-[20px]">chevron_right</span>
+                <span className="material-symbols-outlined text-[20px]">
+                  chevron_right
+                </span>
               </button>
               <button
-                onClick={() => setFilters((f) => ({ ...f, page: meta.totalPages }))}
+                onClick={() =>
+                  setFilters((f) => ({ ...f, page: meta.totalPages }))
+                }
                 disabled={meta.page >= meta.totalPages}
                 className="p-1.5 rounded-lg hover:bg-surface-hover disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                 title="Ultima pagina"
               >
-                <span className="material-symbols-outlined text-[20px]">last_page</span>
+                <span className="material-symbols-outlined text-[20px]">
+                  last_page
+                </span>
               </button>
             </div>
           </div>

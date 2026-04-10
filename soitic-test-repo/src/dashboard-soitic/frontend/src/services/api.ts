@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 import type {
   Agendamento,
   DashboardStats,
@@ -6,15 +6,11 @@ import type {
   CriarAgendamentoDto,
   PaginatedResponse,
   AppointmentFilters,
-} from '../types';
-import {
-  mockAgendamentos,
-  mockStats,
-  mockVolumeData,
-} from '../data/mockData';
+} from "../types";
+import { mockAgendamentos, mockStats, mockVolumeData } from "../data/mockData";
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: "/api",
   timeout: 5000,
 });
 
@@ -26,47 +22,35 @@ async function withFallback<T>(
   try {
     return await apiCall();
   } catch {
-    console.warn('Backend indisponível — usando dados simulados.');
+    console.warn("Backend indisponível — usando dados simulados.");
     return fallback;
   }
 }
 
 export const appointmentsApi = {
   getAll: () =>
-    withFallback(
-      async () => {
-        const res = await api.get<Agendamento[]>('/appointments');
-        return res.data;
-      },
-      mockAgendamentos,
-    ),
+    withFallback(async () => {
+      const res = await api.get<Agendamento[]>("/appointments");
+      return res.data;
+    }, mockAgendamentos),
 
   getStats: () =>
-    withFallback(
-      async () => {
-        const res = await api.get<DashboardStats>('/appointments/stats');
-        return res.data;
-      },
-      mockStats,
-    ),
+    withFallback(async () => {
+      const res = await api.get<DashboardStats>("/appointments/stats");
+      return res.data;
+    }, mockStats),
 
   getVolumeData: () =>
-    withFallback(
-      async () => {
-        const res = await api.get<VolumeData[]>('/appointments/weekly-volume');
-        return res.data;
-      },
-      mockVolumeData,
-    ),
+    withFallback(async () => {
+      const res = await api.get<VolumeData[]>("/appointments/weekly-volume");
+      return res.data;
+    }, mockVolumeData),
 
   getMonthlyVolume: () =>
-    withFallback(
-      async () => {
-        const res = await api.get<VolumeData[]>('/appointments/monthly-volume');
-        return res.data;
-      },
-      [],
-    ),
+    withFallback(async () => {
+      const res = await api.get<VolumeData[]>("/appointments/monthly-volume");
+      return res.data;
+    }, []),
 
   getUpcoming: (limit = 100) =>
     withFallback(
@@ -80,7 +64,7 @@ export const appointmentsApi = {
     ),
 
   create: async (dto: CriarAgendamentoDto): Promise<Agendamento> => {
-    const res = await api.post<Agendamento>('/appointments', dto);
+    const res = await api.post<Agendamento>("/appointments", dto);
     return res.data;
   },
 
@@ -101,7 +85,7 @@ export const appointmentsApi = {
       async () => {
         const params = new URLSearchParams();
         for (const [key, value] of Object.entries(filters)) {
-          if (value !== undefined && value !== '') {
+          if (value !== undefined && value !== "") {
             params.append(key, String(value));
           }
         }

@@ -173,7 +173,7 @@ Base: `http://localhost:3001/api`
 | `GET` | `/appointments/weekly-volume` | Volume de agendamentos por dia da semana atual (seg-dom) |
 | `GET` | `/appointments/monthly-volume` | Volume de agendamentos por dia do mês atual |
 | `GET` | `/appointments/paginated` | Lista paginada com filtros (search, status, tipo, dateFrom, dateTo, sortBy, sortOrder) |
-| `GET` | `/appointments/upcoming?limit=N` | Próximos N agendamentos (padrão: 4) |
+| `GET` | `/appointments/upcoming?limit=N` | Próximos N agendamentos  |
 | `GET` | `/appointments/:id` | Busca agendamento por ID |
 | `POST` | `/appointments` | Cria agendamento (body: `CreateAppointmentDto`) |
 | `PATCH` | `/appointments/:id` | Atualiza parcialmente (body: `UpdateAppointmentDto`) |
@@ -214,6 +214,8 @@ interface Agendamento {
 - [x] Prisma ORM com migrations versionadas
 - [x] Docker Compose com PostgreSQL, backend e frontend
 - [x] Multi-stage Docker builds (node:20-alpine + nginx:alpine)
+
+> **Nota sobre os dados de exemplo:** Tomei a liberdade de expandir o seed inicial com novos pacientes e status adicionais além dos requisitos originais. O objetivo foi tornar a visualização do dashboard mais dinâmica e realista, simulando um fluxo clínico ativo e variado — o que permite avaliar melhor o comportamento dos componentes visuais (gráficos, badges de status, filtros) em condições próximas ao uso real.
 
 ---
 

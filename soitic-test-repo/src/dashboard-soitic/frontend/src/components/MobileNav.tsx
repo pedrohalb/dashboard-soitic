@@ -9,40 +9,26 @@ const items = [
 
 export function MobileNav() {
   return (
-    <nav
-      className="md:hidden fixed bottom-0 left-0 right-0 flex justify-around items-center py-3 px-4 z-50 border-t"
-      style={{
-        backgroundColor: "rgba(255,255,255,0.92)",
-        backdropFilter: "blur(12px)",
-        borderColor: "rgba(192,199,208,0.4)",
-      }}
-    >
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 flex justify-around items-center py-3 px-4 z-50 border-t border-border-subtle bg-surface/90 backdrop-blur-xl">
       {items.map(({ to, icon, label }) => (
         <NavLink
           key={to}
           to={to}
           end={to === "/"}
-          className={({ isActive }) =>
-            `flex flex-col items-center gap-1 ${isActive ? "" : ""}`
-          }
+          className="flex flex-col items-center gap-1"
         >
           {({ isActive }) => (
             <>
               <span
-                className="material-symbols-outlined"
+                className={`material-symbols-outlined transition-colors ${isActive ? "text-primary-500" : "text-text-muted"}`}
                 style={{
-                  color: isActive ? "#004b74" : "#a0aab4",
                   fontVariationSettings: isActive ? "'FILL' 1" : "'FILL' 0",
                 }}
               >
                 {icon}
               </span>
               <span
-                className="text-[10px] font-medium"
-                style={{
-                  color: isActive ? "#004b74" : "#a0aab4",
-                  fontFamily: "Inter, sans-serif",
-                }}
+                className={`text-[10px] font-medium font-body transition-colors ${isActive ? "text-primary-500" : "text-text-muted"}`}
               >
                 {label}
               </span>

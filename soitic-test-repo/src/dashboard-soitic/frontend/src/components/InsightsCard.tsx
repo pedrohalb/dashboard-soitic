@@ -2,7 +2,7 @@ export function InsightsCard() {
   return (
     <section className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {/* Insights — 3 colunas */}
-      <div className="md:col-span-3 p-8 rounded-2xl relative overflow-hidden flex flex-col justify-center min-h-[220px] bg-gradient-to-br from-secondary-500 to-primary-500">
+      <div className="md:col-span-2 p-6 sm:p-8 rounded-2xl relative overflow-hidden flex flex-col justify-center min-h-[200px] sm:min-h-[220px] bg-gradient-to-br from-secondary-500 to-primary-500">
         {/* Decorativo */}
         <div className="absolute right-0 top-0 h-full w-1/2 opacity-10 pointer-events-none flex items-center justify-end">
           <span

@@ -10,7 +10,7 @@ export function UpcomingAppointments({ appointments }: Props) {
   const navigate = useNavigate();
 
   return (
-    <div className="editorial-shadow p-8 rounded-xl bg-surface border border-border-subtle flex flex-col h-[380px]">
+    <div className="editorial-shadow p-6 sm:p-8 rounded-xl bg-surface border border-border-subtle flex flex-col max-h-[380px] md:h-[380px]">
       <div className="flex justify-between items-center mb-6">
         <h3 className="text-xl font-extrabold tracking-tight font-headline text-text-primary">
           Próximos Agendamentos

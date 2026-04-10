@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum StatusAgendamento {
+  confirmado
+  pendente
+  cancelado
+  em_espera  @map("em espera")
+  a_caminho  @map("a caminho")
+  atrasado
+}
+
+enum TipoAgendamento {
+  primeira_consulta @map("primeira consulta")
+  retorno
+  exame
+  urgencia          @map("urgência")
+}
+
+model Agendamento {
+  id              Int               @id @default(autoincrement())
+  nomePaciente    String            @map("nome_paciente")
+  dataAgendamento DateTime          @map("data_agendamento") @db.Timestamptz
+  status          StatusAgendamento @default(pendente)
+  tipo            TipoAgendamento   @default(primeira_consulta)
+  criadoEm        DateTime          @default(now()) @map("criado_em")
+  atualizadoEm    DateTime          @updatedAt @map("atualizado_em")
+
+  @@map("agendamentos")
+}

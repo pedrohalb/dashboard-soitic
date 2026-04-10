@@ -1,11 +1,14 @@
-import type { Appointment } from '../types';
+import { useNavigate } from 'react-router-dom';
+import type { Agendamento } from '../types';
 import { AppointmentCard } from './AppointmentCard';
 
 interface Props {
-  appointments: Appointment[];
+  appointments: Agendamento[];
 }
 
 export function UpcomingAppointments({ appointments }: Props) {
+  const navigate = useNavigate();
+
   return (
     <div
       className="editorial-shadow p-8 rounded-xl bg-surface border border-border-subtle flex flex-col h-[380px]"
@@ -16,9 +19,7 @@ export function UpcomingAppointments({ appointments }: Props) {
         >
           Próximos Agendamentos
         </h3>
-        <button
-          className="text-xs font-bold hover:underline font-body text-primary-500"
-        >
+        <button onClick={() => {navigate('/appointments')}} className="text-xs font-bold hover:underline font-body text-primary-500">
           Ver Todos
         </button>
       </div>

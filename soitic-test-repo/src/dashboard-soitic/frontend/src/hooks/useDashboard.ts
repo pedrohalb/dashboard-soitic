@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
-import type { Appointment, DashboardStats, VolumeData } from '../types';
+import type { Agendamento, DashboardStats, VolumeData } from '../types';
 import { appointmentsApi } from '../services/api';
 
 interface DashboardData {
   stats: DashboardStats | null;
   weeklyVolume: VolumeData[];
   monthlyVolume: VolumeData[];
-  upcoming: Appointment[];
+  upcoming: Agendamento[];
   loading: boolean;
   error: string | null;
   refetch: () => void;
@@ -15,7 +15,7 @@ interface DashboardData {
 export function useDashboard(): DashboardData {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [weeklyVolume, setVolumeData] = useState<VolumeData[]>([]);
-  const [upcoming, setUpcoming] = useState<Appointment[]>([]);
+  const [upcoming, setUpcoming] = useState<Agendamento[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [monthlyVolume, setMonthlyVolume] = useState<VolumeData[]>([]);

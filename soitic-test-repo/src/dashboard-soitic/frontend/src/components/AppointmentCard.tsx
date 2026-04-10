@@ -1,7 +1,7 @@
-import type { Appointment } from '../types';
+import type { Agendamento } from '../types';
 import {
   statusConfig,
-  typeConfig,
+  tipoConfig,
   formatTime,
   formatDate,
   getInitials,
@@ -9,7 +9,7 @@ import {
 } from '../utils/appointmentUtils';
 
 interface Props {
-  appointment: Appointment;
+  appointment: Agendamento;
 }
 
 export function AppointmentCard({ appointment }: Props) {
@@ -18,9 +18,9 @@ export function AppointmentCard({ appointment }: Props) {
     bg: 'bg-[#eceef0]',
     text: 'text-[#40484f]',
   };
-  const typeInfo = typeConfig[appointment.type] ?? { icon: 'event' };
-  const initials = getInitials(appointment.patientName);
-  const avatarColor = getAvatarColor(appointment.patientName);
+  const tipoInfo = tipoConfig[appointment.tipo] ?? { icon: 'event' };
+  const initials = getInitials(appointment.nomePaciente);
+  const avatarColor = getAvatarColor(appointment.nomePaciente);
 
   return (
     <div
@@ -38,15 +38,15 @@ export function AppointmentCard({ appointment }: Props) {
         <p
           className="font-bold text-sm truncate font-body text-text-primary"
         >
-          {appointment.patientName}
+          {appointment.nomePaciente}
         </p>
         <p
           className="text-xs flex items-center gap-1 mt-0.5 font-body text-text-secondary"
         >
           <span className="material-symbols-outlined text-[14px]">
-            {typeInfo.icon}
+            {tipoInfo.icon}
           </span>
-          <span className="capitalize">{appointment.type}</span>
+          <span className="capitalize">{appointment.tipo}</span>
         </p>
       </div>
 
@@ -55,7 +55,7 @@ export function AppointmentCard({ appointment }: Props) {
         <p
           className="font-extrabold text-sm font-headline text-primary-500"
         >
-          {formatDate(appointment.appointmentDate)} &middot; {formatTime(appointment.appointmentDate)}
+          {formatDate(appointment.dataAgendamento)} &middot; {formatTime(appointment.dataAgendamento)}
         </p>
         <span
           className={`inline-block px-2 py-0.5 text-[10px] font-bold rounded-full mt-1 ${status.bg} ${status.text}`}

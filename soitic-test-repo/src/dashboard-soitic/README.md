@@ -31,7 +31,7 @@ O frontend opera com **fallback automático para dados simulados** quando o back
 | Tecnologia | Versão | Uso |
 |---|---|---|
 | NestJS | v11 | Framework com módulos, decorators e DI |
-| TypeORM | v0.3 | ORM com entidades decoradas |
+| Prisma | v6 | ORM com schema declarativo e migrations |
 | PostgreSQL | 16 | Banco relacional (via Docker Alpine) |
 | class-validator | v0.15 | Validação de DTOs via decorators |
 | class-transformer | v0.5 | Transformação de objetos |
@@ -54,13 +54,18 @@ dashboard-soitic/
 ├── backend/                    # API NestJS (porta 3001)
 │   ├── Dockerfile
 │   ├── .env / .env.example
+│   ├── prisma/
+│   │   ├── schema.prisma       # Schema do banco com enums e modelo Agendamento
+│   │   └── migrations/         # Migrations do Prisma
 │   └── src/
 │       ├── main.ts             # Bootstrap: CORS, ValidationPipe, prefixo /api
-│       ├── app.module.ts       # ConfigModule + TypeORM async config
-│       ├── app.controller.ts   # Health check (GET /api → "Hello World!")
+│       ├── app.module.ts       # ConfigModule + PrismaModule + AppointmentsModule
+│       ├── prisma/
+│       │   ├── prisma.module.ts    # Módulo global do Prisma
+│       │   └── prisma.service.ts   # PrismaClient com lifecycle hooks
 │       └── appointments/
-│           ├── appointment.entity.ts       # Entidade com enums de status e tipo
-│           ├── appointments.controller.ts  # REST controller (CRUD + stats)
+│           ├── appointment.enums.ts        # Enums de status e tipo
+│           ├── appointments.controller.ts  # REST controller (CRUD + stats + paginação)
 │           ├── appointments.service.ts     # Lógica de negócio + seed automático
 │           ├── appointments.module.ts
 │           └── dto/
@@ -82,9 +87,11 @@ dashboard-soitic/
         │   ├── PatientVolumeChart.tsx  # AreaChart semana/mês com Recharts
         │   ├── UpcomingAppointments.tsx
         │   ├── AppointmentCard.tsx     # Card individual de agendamento
-        │   └── InsightsCard.tsx        # Card de insights com gradiente
+        │   ├── InsightsCard.tsx        # Card de insights com gradiente
+        │   └── NewAppointmentModal.tsx # Modal para criar novo agendamento
         ├── pages/
         │   ├── DashboardPage.tsx       # Página principal com stats + gráfico
+        │   ├── AppointmentsPage.tsx    # Tabela com filtros, paginação, edit/delete
         │   └── PlaceholderPage.tsx     # Placeholder para rotas futuras
         ├── hooks/
         │   └── useDashboard.ts         # Hook de fetch com Promise.all
@@ -101,8 +108,8 @@ dashboard-soitic/
 ### Decisões Técnicas
 
 - **Fallback para mock**: O frontend detecta quando o backend está indisponível e serve dados simulados locais, permitindo rodar apenas o frontend.
-- **Seed automático**: Na primeira inicialização, o backend popula o banco com 29 agendamentos de exemplo via `OnModuleInit`.
-- **`synchronize: true`**: TypeORM cria/atualiza tabelas automaticamente em dev. Em produção, substituir por migrations.
+- **Seed automático**: Na primeira inicialização, o backend popula o banco com 59 agendamentos de exemplo via `OnModuleInit`.
+- **Prisma ORM**: Schema declarativo com migrations versionadas. Enums mapeados entre Prisma e a aplicação via `statusMap`/`tipoMap`.
 - **Design tokens via CSS**: O Tailwind v4 consome tokens de cor/fonte via `@theme {}` no `index.css`, com override por variáveis CSS para dark mode.
 - **CORS**: Configurado para aceitar requests de `http://localhost:5173`.
 - **Proxy em dev**: Vite redireciona `/api/*` para `http://localhost:3001`.
@@ -113,11 +120,10 @@ dashboard-soitic/
 
 ### Opção 1: Docker Compose (recomendado)
 
-- **Antes de dar build no docker**: Criar arquivo .env igual ao .env.example e colocar no diretório "soitic-test-repo\src\dashboard-soitic"
-
 ```bash
 cd backend
 cp .env.example .env
+cd ..
 docker-compose up -d --build
 # App em http://localhost:5173
 ```
@@ -129,7 +135,7 @@ Isso sobe os 3 serviços:
 
 ### Opção 2: Local
 
-**Pré-requisitos:** Node.js ≥ 18, PostgreSQL rodando.
+**Pré-requisitos:** Node.js >= 18, PostgreSQL rodando.
 
 ```bash
 # 1. Banco de dados
@@ -138,8 +144,10 @@ psql -U postgres -c "CREATE DATABASE clinica_bem_viver;"
 # 2. Backend
 cd backend
 cp .env.example .env
-# Edite .env — ajuste DB_NAME para "clinica_bem_viver"
+# Edite .env se necessário (ajuste DATABASE_URL para seu ambiente)
 npm install
+npx prisma generate
+npx prisma migrate deploy
 npm run start:dev
 # API em http://localhost:3001/api
 
@@ -162,8 +170,9 @@ Base: `http://localhost:3001/api`
 |---|---|---|
 | `GET` | `/appointments` | Lista todos os agendamentos (ordenados por data) |
 | `GET` | `/appointments/stats` | Métricas: consultas hoje, novos pacientes, pendentes, cancelados, taxa de comparecimento |
-| `GET` | `/appointments/weekly-volume` | Volume de agendamentos por dia da semana atual (seg–dom) |
+| `GET` | `/appointments/weekly-volume` | Volume de agendamentos por dia da semana atual (seg-dom) |
 | `GET` | `/appointments/monthly-volume` | Volume de agendamentos por dia do mês atual |
+| `GET` | `/appointments/paginated` | Lista paginada com filtros (search, status, tipo, dateFrom, dateTo, sortBy, sortOrder) |
 | `GET` | `/appointments/upcoming?limit=N` | Próximos N agendamentos (padrão: 4) |
 | `GET` | `/appointments/:id` | Busca agendamento por ID |
 | `POST` | `/appointments` | Cria agendamento (body: `CreateAppointmentDto`) |
@@ -176,14 +185,14 @@ Base: `http://localhost:3001/api`
 // Status: 'confirmado' | 'pendente' | 'cancelado' | 'em espera' | 'a caminho' | 'atrasado'
 // Tipo:   'primeira consulta' | 'retorno' | 'exame' | 'urgência'
 
-interface Appointment {
+interface Agendamento {
   id: number;
-  patientName: string;
-  appointmentDate: Date;       // timestamptz
-  status: AppointmentStatus;
-  type: AppointmentType;
-  createdAt: Date;
-  updatedAt: Date;
+  nomePaciente: string;
+  dataAgendamento: Date;       // timestamptz
+  status: StatusAgendamento;
+  tipo: TipoAgendamento;
+  criadoEm: Date;
+  atualizadoEm: Date;
 }
 ```
 
@@ -195,14 +204,16 @@ interface Appointment {
 - [x] Gráfico de volume de pacientes com alternância semana/mês (Recharts AreaChart)
 - [x] Lista de próximos agendamentos com status colorido e avatar determinístico
 - [x] Card de insights da clínica
+- [x] Página de agendamentos com tabela, filtros, paginação, edição e exclusão
+- [x] Modal para criação de novo agendamento
 - [x] Sidebar colapsável (desktop) + bottom nav (mobile)
 - [x] Dark mode / light mode com persistência em localStorage
 - [x] Fallback automático para dados simulados (frontend sem backend)
 - [x] API REST completa (CRUD) com validação de DTOs
-- [x] Seed automático de 29 agendamentos na primeira execução
+- [x] Seed automático de 59 agendamentos na primeira execução
+- [x] Prisma ORM com migrations versionadas
 - [x] Docker Compose com PostgreSQL, backend e frontend
 - [x] Multi-stage Docker builds (node:20-alpine + nginx:alpine)
-- [x] Ações dos botões "Novo Agendamento"
 
 ---
 
@@ -218,6 +229,9 @@ interface Appointment {
 | `npm run lint` | Lint com autofix |
 | `npm test` | Testes unitários (Jest) |
 | `npm run test:e2e` | Testes end-to-end |
+| `npx prisma generate` | Gera o Prisma Client |
+| `npx prisma migrate dev` | Roda migrations em dev |
+| `npx prisma studio` | Interface visual do banco |
 
 ### Frontend
 

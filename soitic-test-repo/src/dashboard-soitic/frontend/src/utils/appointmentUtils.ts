@@ -1,7 +1,7 @@
-import type { AppointmentStatus, AppointmentType } from '../types';
+import type { StatusAgendamento, TipoAgendamento } from '../types';
 
 export const statusConfig: Record<
-  AppointmentStatus,
+  StatusAgendamento,
   { label: string; bg: string; text: string }
 > = {
   confirmado: {
@@ -36,8 +36,8 @@ export const statusConfig: Record<
   },
 };
 
-export const typeConfig: Record<
-  AppointmentType,
+export const tipoConfig: Record<
+  TipoAgendamento,
   { icon: string }
 > = {
   'primeira consulta': { icon: 'new_label' },
@@ -64,7 +64,6 @@ export function formatDayLabel(dateStr: string): string {
   const [year, month, day] = dateStr.split('-').map(Number);
   const date = new Date(year, month - 1, day);
   const label = date.toLocaleDateString('pt-BR', { weekday: 'short' });
-  // Capitaliza: "seg." → "Seg"
   return label.charAt(0).toUpperCase() + label.slice(1).replace('.', '');
 }
 
@@ -77,7 +76,6 @@ export function getInitials(name: string): string {
     .toUpperCase();
 }
 
-// Gera uma cor de avatar determinística baseada no nome
 const avatarColors = [
   'bg-[#cde5ff] text-[#004b74]',
   'bg-[#d6e3ff] text-[#00468d]',

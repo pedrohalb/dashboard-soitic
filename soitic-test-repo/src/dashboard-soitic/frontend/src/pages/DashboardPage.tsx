@@ -31,16 +31,6 @@ export function DashboardPage() {
             Aqui está o resumo clínico para o dia de hoje, {today}.
           </p>
         </div>
-        <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 border border-border-strong rounded-lg text-sm font-medium hover:bg-surface-hover text-text-primary transition-colors">
-            <span className="material-symbols-outlined text-[18px]">summarize</span>
-            Relatórios
-          </button>
-          <button className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-white transition-all hover:opacity-90 shadow-sm bg-primary-500 hover:bg-primary-600">
-            <span className="material-symbols-outlined text-[18px]">add</span>
-            Novo Agendamento
-          </button>
-        </div>
       </div>
 
       {/* Stats Row */}
@@ -87,6 +77,7 @@ export function DashboardPage() {
           value={loading ? '—' : `${stats?.attendanceRate ?? 0}%`}
           icon="check_circle"
           iconClass="text-success bg-success/10"
+          tooltip="Percentual de pacientes que compareceram às consultas agendadas em relação ao total de agendamentos."
           sub={
             <div className="flex justify-between w-full text-text-secondary">
               <span>Média geral</span>

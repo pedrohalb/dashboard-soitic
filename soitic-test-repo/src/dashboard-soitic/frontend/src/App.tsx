@@ -23,8 +23,7 @@ export default function App() {
         />
 
         <div
-          className="min-h-screen flex flex-col transition-all duration-300 ease-in-out"
-          style={{ marginLeft: collapsed ? "72px" : "256px" }}
+          className={`min-h-screen flex flex-col transition-all duration-300 ease-in-out ${collapsed ? "md:ml-[72px]" : "md:ml-[256px]"}`}
         >
           <TopBar />
           <main className="flex-1">

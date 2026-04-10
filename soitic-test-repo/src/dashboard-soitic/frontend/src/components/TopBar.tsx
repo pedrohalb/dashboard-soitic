@@ -18,7 +18,14 @@ export function TopBar() {
 
   return (
     <header className="flex justify-between items-center w-full px-6 py-3 sticky top-0 z-50 backdrop-blur-xl bg-surface/80 border-b border-border-subtle transition-colors duration-300">
-      {/* Center Nav */}
+      {/* Brand — visível apenas no mobile (sidebar está hidden) */}
+      <div className="md:hidden">
+        <h1 className="font-headline font-extrabold text-lg tracking-tighter bg-gradient-to-r from-secondary-500 to-primary-500 bg-clip-text text-transparent whitespace-nowrap">
+          Clínica Bem Viver
+        </h1>
+      </div>
+
+      {/* Spacer desktop */}
       <nav className="hidden md:flex items-center gap-6 mx-8"></nav>
 
       {/* Right actions */}

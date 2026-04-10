@@ -460,23 +460,25 @@ export function AppointmentsPage() {
         </div>
 
         {/* Date range */}
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-2 sm:gap-3">
           <span className="text-xs text-text-muted font-body">Período:</span>
-          <input
-            type="date"
-            lang="pt-BR"
-            value={filters.dateFrom}
-            onChange={(e) => updateFilter("dateFrom", e.target.value)}
-            className="px-3 py-1.5 rounded-lg border border-border-subtle bg-bg-base text-sm text-text-primary focus:outline-none focus:border-primary-500 transition-colors font-body"
-          />
-          <span className="text-text-muted text-sm">até</span>
-          <input
-            type="date"
-            lang="pt-BR"
-            value={filters.dateTo}
-            onChange={(e) => updateFilter("dateTo", e.target.value)}
-            className="px-3 py-1.5 rounded-lg border border-border-subtle bg-bg-base text-sm text-text-primary focus:outline-none focus:border-primary-500 transition-colors font-body"
-          />
+          <div className="flex items-center gap-2 flex-wrap">
+            <input
+              type="date"
+              lang="pt-BR"
+              value={filters.dateFrom}
+              onChange={(e) => updateFilter("dateFrom", e.target.value)}
+              className="flex-1 sm:flex-none px-3 py-1.5 rounded-lg border border-border-subtle bg-bg-base text-sm text-text-primary focus:outline-none focus:border-primary-500 transition-colors font-body"
+            />
+            <span className="text-text-muted text-sm">até</span>
+            <input
+              type="date"
+              lang="pt-BR"
+              value={filters.dateTo}
+              onChange={(e) => updateFilter("dateTo", e.target.value)}
+              className="flex-1 sm:flex-none px-3 py-1.5 rounded-lg border border-border-subtle bg-bg-base text-sm text-text-primary focus:outline-none focus:border-primary-500 transition-colors font-body"
+            />
+          </div>
         </div>
       </div>
 
